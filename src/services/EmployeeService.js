@@ -7,3 +7,5 @@ export const listEmployees = () => axios.get(REST_API_BASE_URL);
 export const createEmployee = (employee) => axios.post(REST_API_BASE_URL, employee);
 
 export const getEmployee = (uuid) => axios.get(REST_API_BASE_URL + "/" + uuid);
+
+export const updateEmployee = (uuid, employee) => axios.put(REST_API_BASE_URL + "/" + uuid, employee);
