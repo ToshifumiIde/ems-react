@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createEmployee } from "../services/EmployeeService";
+import { getEmployee } from "../services/EmployeeService";
 import { useNavigate, useParams } from "react-router-dom";
 
 const EmployeeComponent = () => {
@@ -14,6 +15,18 @@ const EmployeeComponent = () => {
   });
 
   const { uuid } = useParams();
+
+  useEffect(() => {
+    if (uuid) {
+      getEmployee(uuid)
+        .then((response) => {
+          setFirstName(response.data.firstName);
+          setLastName(response.data.lastName);
+          setEmail(response.data.email);
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [uuid]);
 
   function setPageTitle() {
     if (uuid) {
