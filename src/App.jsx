@@ -7,6 +7,7 @@ import ListEmployeeComponent from "./components/ListEmployeeComponent";
 import HeaderComponent from "./components/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import EmployeeComponent from "./components/EmployeeComponent";
 
 function App() {
   return (
@@ -14,10 +15,12 @@ function App() {
       <BrowserRouter>
         <HeaderComponent />
         <Routes>
-          {/* http://localhost:4000 */}
+          {/* http://localhost:5000 */}
           <Route path="/" element={<ListEmployeeComponent />}></Route>
-          {/* http://localhost:4000/employees */}
+          {/* http://localhost:5000/employees */}
           <Route path="/employees" element={<ListEmployeeComponent />}></Route>
+          {/* http://localhost:5000/add-employee */}
+          <Route path="/add-employee" element={<EmployeeComponent />}></Route>
         </Routes>
         <FooterComponent />
       </BrowserRouter>
