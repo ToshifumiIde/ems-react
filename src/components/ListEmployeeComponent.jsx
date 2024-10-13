@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {listEmployees} from "../services/EmployeeService";
+import { listEmployees } from "../services/EmployeeService";
 import { useNavigate } from "react-router-dom";
 
 const ListEmployeeComponent = () => {
@@ -19,6 +19,10 @@ const ListEmployeeComponent = () => {
     navigator("/add-employee");
   }
 
+  function editEmployee(uuid) {
+    navigator(`/edit-employee/${uuid}`);
+  }
+
   return (
     <div className="container">
       <h2 className="text-center">List Of Employee</h2>
@@ -31,6 +35,7 @@ const ListEmployeeComponent = () => {
           <th>Employee First Name</th>
           <th>Employee Last Name</th>
           <th>Employee Email Id</th>
+          <th>Action</th>
         </thead>
         <tbody>
           {employees.map((employee) => (
@@ -39,6 +44,14 @@ const ListEmployeeComponent = () => {
               <td>{employee.firstName}</td>
               <td>{employee.lastName}</td>
               <td>{employee.email}</td>
+              <td>
+                <button
+                  className="btn btn-info"
+                  onClick={() => editEmployee(employee.uuid)}
+                >
+                  Update
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
