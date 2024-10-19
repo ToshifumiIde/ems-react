@@ -13,14 +13,16 @@ const DepartmentComponent = () => {
   const { uuid } = useParams();
 
   useEffect(() => {
-    getDepartmentByUuid(uuid)
-      .then((response) => {
-        setDepartmentName(response.data.name);
-        setDepartmentDescription(response.data.description);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (uuid) {
+      getDepartmentByUuid(uuid)
+        .then((response) => {
+          setDepartmentName(response.data.name);
+          setDepartmentDescription(response.data.description);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, [uuid]);
 
   const navigator = useNavigate();
