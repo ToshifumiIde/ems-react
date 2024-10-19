@@ -33,6 +33,11 @@ function App() {
             path="/departments"
             element={<ListDepartmentComponent />}
           ></Route>
+          {/* http://localhost:5000/add-department */}
+          <Route
+            path="/add-department"
+            element={<DepartmentComponent />}
+          ></Route>
         </Routes>
         <FooterComponent />
       </BrowserRouter>
