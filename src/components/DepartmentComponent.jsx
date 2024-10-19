@@ -1,13 +1,30 @@
-import React, { useState } from "react";
-import { createDepartment } from "../services/DepartmentService";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  createDepartment,
+  getDepartmentByUuid,
+  updateDepartmentByUuid,
+} from "../services/DepartmentService";
+import { useNavigate, useParams } from "react-router-dom";
 
 const DepartmentComponent = () => {
   const [departmentName, setDepartmentName] = useState("");
   const [departmentDescription, setDepartmentDescription] = useState("");
 
+  const { uuid } = useParams();
+
+  useEffect(() => {
+    getDepartmentByUuid(uuid)
+      .then((response) => {
+        setDepartmentName(response.data.name);
+        setDepartmentDescription(response.data.description);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [uuid]);
+
   const navigator = useNavigate();
-  function saveDepartment(e) {
+  function saveOrUpdateDepartment(e) {
     e.preventDefault();
     const department = {
       name: departmentName,
@@ -15,14 +32,35 @@ const DepartmentComponent = () => {
     };
     console.log(department);
 
-    createDepartment(department)
-      .then((response) => {
-        console.log(response.data);
-        navigator("/departments");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (uuid) {
+      updateDepartmentByUuid(uuid, department)
+        .then((response) => {
+          console.log(response.data);
+          navigator("/departments");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+    if (!uuid) {
+      createDepartment(department)
+        .then((response) => {
+          console.log(response.data);
+          navigator("/departments");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }
+
+  function setPageTitle() {
+    if (uuid) {
+      return <h2 className="text-center">Update Department</h2>;
+    } else {
+      return <h2 className="text-center">Add Department</h2>;
+    }
   }
 
   return (
@@ -31,7 +69,7 @@ const DepartmentComponent = () => {
       <br />
       <div className="row">
         <div className="card col-mb-6 offset-md-3 offset-md-3">
-          <h2 className="text-center">Add Department</h2>
+          {setPageTitle()}
           <div className="card-body">
             <form>
               <div className="form-group mb-2">
@@ -63,7 +101,7 @@ const DepartmentComponent = () => {
               <button
                 className="btn btn-success mb-2"
                 onClick={(e) => {
-                  saveDepartment(e);
+                  saveOrUpdateDepartment(e);
                 }}
               >
                 Submit
