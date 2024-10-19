@@ -13,6 +13,7 @@ const EmployeeComponent = () => {
   const [email, setEmail] = useState("");
   const [departmentUuid, setDepartmentUuid] = useState("");
   const [departmentsList, setDepartmentsList] = useState([]);
+  const INIT_DEPARTMENT_SELECTION = "Select Department";
   const navigator = useNavigate();
   const [errors, setErrors] = useState({
     firstName: "",
@@ -118,7 +119,7 @@ const EmployeeComponent = () => {
       valid = false;
     }
 
-    if (departmentUuid && departmentUuid != "Select Department") {
+    if (departmentUuid && departmentUuid != INIT_DEPARTMENT_SELECTION) {
       errorsCopy.department = "";
     } else {
       errorsCopy.department = "Department is required";
@@ -196,7 +197,9 @@ const EmployeeComponent = () => {
                     setDepartmentUuid(e.target.value);
                   }}
                 >
-                  <option value="Select Department">Select Department</option>
+                  <option value={INIT_DEPARTMENT_SELECTION}>
+                    {INIT_DEPARTMENT_SELECTION}
+                  </option>
                   {departmentsList.map((department) => (
                     <option key={department.uuid} value={department.uuid}>
                       {department.name}
